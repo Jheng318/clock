@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @property --p {
+        syntax: "<percentage>";
+        inherits: false;
+        initial-value: 0%;
+      }
+      dialog {
+        text-align: center;
+      }
+      #pomodoro {
+        width: 200px;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        border: 1px solid black;
+        background: conic-gradient(red var(--p), #eee 0);
+        --p: 0%;
+        transition: --p 1s linear;
+        position: relative;
+      }
+      #pomodoro::after {
+        position: absolute;
+        content: "";
+        top: 0;
+        left: 0;
+        inset: 4px;
+        background: white;
+        border-radius: inherit;
+        margin: auto;
+      }
+      #hand {
+        width: 80px;
+        background-color: black;
+        height: 4px;
+        z-index: 1;
+        position: absolute;
+        transform-origin: 100% 50%;
+        left: 50%;
+        top: 50%;
+        transition: 0.05s all;
+        transform: translate(-100%, -50%) rotate(90deg);
+      }
+      #hand::after {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        transform: translate(-50%, -50%);
+        background-color: black;
+        content: "";
+        width: 16px;
+        border-radius: 50%;
+        aspect-ratio: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="open">Open modal</button>
+    <dialog>
+      <h1>Pomodoro Timer</h1>
+      <p>Read Book</p>
+      <figure>
+        <div id="pomodoro">
+          <div id="hand"></div>
+        </div>
+      </figure>
+      <p id="time"></p>
+      <div>
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+        <button id="close">Close</button>
+      </div>
+    </dialog>
+    <script src="jquery.min.js"></script>
+    <script>
+      let iterval,
+        secRemaining,
+        isPaused = false,
+        initialMin = 1,
+        initialSec = initialMin * 60;
+      const audio = new Audio("./alarm.mp3");
+      $(() => {
+        function startTimer() {
+          isPaused = false;
+          secRemaining = initialMin * 60;
+          iterval = setInterval(updateTimer, 1000);
+        }
+        function pauseTimer() {
+          isPaused = true;
+          clearInterval(iterval);
+        }
+        function resetTimer(min) {
+          isPaused = false;
+          clearInterval(iterval);
+          updateText(min, 0);
+          $("#pomodoro").get(0).style.setProperty("--p", `0%`);
+          $("#hand").css("transform", `translate(-100%, -50%) rotate(90deg)`);
+        }
+        function resumeTimer() {
+          isPaused = false;
+          iterval = setInterval(updateTimer, 1000);
+        }
+        function updateTimer() {
+          if (secRemaining < 0) {
+            resetTimer(0);
+            audio.play();
+            return;
+          }
+          let min = Math.floor(secRemaining / 60);
+          let sec = secRemaining % 60;
+          progress = secRemaining / initialSec;
+          degree = 360 * (1 - progress) + 90;
+          updateText(min, sec);
+          updateVisual(progress, degree);
+          secRemaining--;
+        }
+        function updateText(min, sec) {
+          $("#time").text(`${min}:${sec.toString().padStart(2, "0")}`);
+        }
+        function updateVisual(progress, degree) {
+          $("#pomodoro")
+            .get(0)
+            .style.setProperty("--p", `${(1 - progress) * 100}%`);
+          $("#hand").css(
+            "transform",
+            `translate(-100%, -50%) rotate(${degree}deg)`
+          );
+        }
+        function close() {
+          $("dialog")[0].close();
+          resetTimer(0);
+          audio.currentTime = 0;
+          audio.pause();
+          audio.src = "";
+        }
+        $("#open").on("click", () => {
+          $("dialog")[0].showModal();
+        });
+        $("#close").on("click", () => {
+          close();
+        });
+        $("#start").on("click", () => {
+          isPaused ? resumeTimer() : startTimer();
+        });
+        $("#pause").on("click", () => {
+          pauseTimer();
+        });
+        $("#reset").on("click", () => {
+          resetTimer(0);
+        });
+        $(document).on("keydown", (e) => {
+          e.preventDefault();
+          if (e.key === "s" && $("dialog")[0].open) {
+            console.log("start");
+            startTimer();
+          } else if (e.key === "p" && $("dialog")[0].open) {
+            console.log("pause");
+            pauseTimer();
+          } else if (e.key === "r" && $("dialog")[0].open) {
+            console.log("reset");
+            resetTimer(initialMin);
+          } else if (e.key === "c" && $("dialog")[0].open) {
+            console.log("close");
+            close();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
