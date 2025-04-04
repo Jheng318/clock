@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive</title>
+    <style>
+      header {
+        width: 100vw;
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-areas: "side side side nav1 nav2 nav3";
+        gap: 2px;
+        height: 3rem;
+      }
+      main {
+        width: 100vw;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        gap: 2px;
+        padding: 2px 0;
+        height: 50vh;
+        grid-template-areas:
+          "post post post post post post side"
+          "meta main main main main main side"
+          "meta main main main main main ads"
+          "meta image image image image image ads"
+          "meta image image image image image other"
+          "meta image image image image image other";
+      }
+      .title {
+        grid-area: post;
+        background-color: lightblue;
+      }
+      .sideBar {
+        grid-area: side;
+        background-color: orange;
+      }
+      .meta {
+        grid-area: meta;
+        background-color: lightgreen;
+      }
+      .main {
+        grid-area: main;
+        background-color: lightslategray;
+      }
+      .ads {
+        grid-area: ads;
+        background-color: green;
+      }
+      .img {
+        grid-area: image;
+        background-color: yellow;
+      }
+      .other {
+        grid-area: other;
+        background-color: purple;
+      }
+
+      .side {
+        grid-area: side;
+        background: orange;
+      }
+      .nav {
+        background-color: pink;
+      }
+      .nav:nth-of-type(1) {
+        grid-area: nav1;
+      }
+      .nav:nth-of-type(2) {
+        grid-area: nav2;
+      }
+      .nav:nth-of-type(3) {
+        grid-area: nav3;
+      }
+      footer {
+        background-color: brown;
+        height: 5rem;
+      }
+      @media screen and (max-width: 768px) {
+        footer {
+          background-color: blanchedalmond;
+        }
+      }
+      @media screen and (max-width: 375px) {
+        footer {
+          background-color: blue;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="side">Side Title</div>
+      <div class="nav">Nav1</div>
+      <div class="nav">Nav2</div>
+      <div class="nav">Nav3</div>
+    </header>
+    <main>
+      <div class="title">post title</div>
+      <div class="sideBar">side bar</div>
+      <div class="meta">post meta</div>
+      <div class="main">main content</div>
+      <div class="ads">ads</div>
+      <div class="img">main content img</div>
+      <div class="other">other stufss</div>
+    </main>
+    <footer>@2018 footer</footer>
+  </body>
+</html>

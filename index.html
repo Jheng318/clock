@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width='device-width', initial-scale=1.0" />
+    <title>Module E</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header
+      class="container-fluid bg-blue-200 bg-info mb-3 py-3 position-relative"
+    >
+      <h1 class="text-center text-white">Habit Tracker</h1>
+      <button
+        id="toggleDark"
+        class="btn btn-secondary position-absolute top-0 end-0"
+      >
+        Toggle Dark Mode
+      </button>
+    </header>
+    <main class="vh-100">
+      <section id="add" class="w-75 m-auto p-3 bg-white">
+        <h2 class="pb-1">Add New Habit</h2>
+        <form method="post" id="addHabit">
+          <input
+            type="text"
+            name="habit"
+            id="habit"
+            placeholder="Habit Name"
+            class="w-100"
+            required
+          /><br />
+          <select
+            name="selectCat"
+            id="selectCat"
+            class="form-select my-3"
+            required
+          >
+            <option value="" selected disabled>Select Category</option>
+            <option value="health">Health</option>
+            <option value="learning">Learning</option>
+            <option value="product">Productivity</option>
+          </select>
+          <input
+            type="submit"
+            value="Add Habit"
+            class="btn btn-primary w-100"
+          />
+        </form>
+      </section>
+      <section id="habits" class="mt-5 w-75 m-auto p-3 bg-white">
+        <h2 class="pb-1">Your Habits</h2>
+        <div id="healthSec">
+          <h3 class="py-3 fw-bold">Health</h3>
+        </div>
+        <div id="learningSec">
+          <h3 class="py-3 fw-bold">Learning</h3>
+        </div>
+        <div id="productSec">
+          <h3 class="py-3 fw-bold">Productivity</h3>
+        </div>
+      </section>
+      <dialog>
+        <h1 class="fs-2 fw-bold">Promodoro Timer</h1>
+        <p id="activiy"></p>
+        <figure>
+          <div id="pomodoro">
+            <div id="hand"></div>
+          </div>
+        </figure>
+        <p id="time">25:00</p>
+        <div id="buttonDiv">
+          <button id="start">Start</button>
+          <button id="pause">Pause</button>
+          <button id="reset">Reset</button>
+          <button id="close">Close</button>
+        </div>
+      </dialog>
+    </main>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="jquery.min.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
